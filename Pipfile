@@ -10,6 +10,7 @@ web3 = "*"
 two1 = "*"
 base58 = "*"
 mnemonic = "*"
+ipykernel = "*"
 
 [requires]
 python_version = "3.7"
