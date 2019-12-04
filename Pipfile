@@ -12,6 +12,7 @@ base58 = "*"
 mnemonic = "*"
 ipykernel = "*"
 pandas = "*"
+neocore = "*"
 
 [requires]
 python_version = "3.7"
