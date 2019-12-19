@@ -4,15 +4,13 @@ import ecdsa.der
 import ecdsa.util
 import hashlib
 import unittest
-import random
-import re
-import struct
 
-import utils
+from . import utils
+
 
 # https://en.bitcoin.it/wiki/Wallet_import_format
-def privateKeyToWif(key_hex):    
-    return utils.base58CheckEncode(0x80, key_hex.decode('hex'))
+def privateKeyToWif(key_hex):
+    return utils.base58CheckEncode(0x80, key_hex)
 
 def wifToPrivateKey(s):
     b = utils.base58CheckDecode(s)
@@ -23,7 +21,7 @@ def wifToPrivateKey(s):
 def derSigToHexSig(s):
     s, junk = ecdsa.der.remove_sequence(s.decode('hex'))
     if junk != '':
-        print 'JUNK', junk.encode('hex')
+        print('JUNK', junk.encode('hex'))
     assert(junk == '')
     x, s = ecdsa.der.remove_integer(s)
     y, s = ecdsa.der.remove_integer(s)
@@ -31,9 +29,9 @@ def derSigToHexSig(s):
 
 # Input is hex string
 def privateKeyToPublicKey(s):
-    sk = ecdsa.SigningKey.from_string(s.decode('hex'), curve=ecdsa.SECP256k1)
+    sk = ecdsa.SigningKey.from_string(bytes.fromhex(s), curve=ecdsa.SECP256k1)
     vk = sk.verifying_key
-    return ('\04' + sk.verifying_key.to_string()).encode('hex')
+    return (b'\04' + sk.verifying_key.to_string())
 
 # Input is hex string
 def keyToAddr(s):
@@ -41,12 +39,12 @@ def keyToAddr(s):
 
 def pubKeyToAddr(s):
     ripemd160 = hashlib.new('ripemd160')
-    ripemd160.update(hashlib.sha256(s.decode('hex')).digest())
-    return utils.base58CheckEncode(0, ripemd160.digest())
+    ripemd160.update(hashlib.sha256(s).digest())
+    return utils.base58CheckEncode(0, ripemd160.digest().hex())
 
 def addrHashToScriptPubKey(b58str):
     assert(len(b58str) == 34)
-    # 76     A9      14 (20 bytes)                                 88             AC
+    # 76     A9      14 (20 bytes)                            88          AC
     return '76a914' + utils.base58CheckDecode(b58str).encode('hex') + '88ac'
 
     
@@ -122,7 +120,7 @@ class TestKey(unittest.TestCase):
         sig = derSigToHexSig(sig_der)
 
         vk = ecdsa.VerifyingKey.from_string(public_key[2:].decode('hex'), curve=ecdsa.SECP256k1)
-        self.assertEquals(vk.verify_digest(sig.decode('hex'), hashToSign.decode('hex')), True)
+        self.assertEqual(vk.verify_digest(sig.decode('hex'), hashToSign.decode('hex')), True)
         #OP_DUP OP_HASH160 167c74f7491fe552ce9e1912810a984355b8ee07 OP_EQUALVERIFY OP_CHECKSIG
 
 if __name__ == '__main__':

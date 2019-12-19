@@ -1,7 +1,5 @@
 import hashlib
 import struct
-import time
-
 
 # block 272784
 # http://blockexplorer.com/block/0000000000000003ce284b6b4244552242e8e64efc2df1bdadb93f392ade1a35
@@ -18,9 +16,9 @@ exp = bits >> 24
 mant = bits & 0xffffff
 target = mant * (1<<(8*(exp - 3)))
 target_hexstr = '%064x' % target
-print target_hexstr
+print(target_hexstr)
 target_str = target_hexstr.decode('hex')
-print repr(target_str)
+print(repr(target_str))
 
 nonce = 100000000
 while 1:
@@ -31,14 +29,14 @@ while 1:
     hash = hashlib.sha256(hashlib.sha256(header).digest()).digest()
 
     if nonce == 0:
-        print nonce, hash[::-1].encode('hex_codec')
+        print(nonce, hash[::-1].encode('hex_codec'))
 
 
     if hash[::-1].encode('hex_codec').startswith(p):
-        print nonce, hash[::-1].encode('hex_codec')
+        print(nonce, hash[::-1].encode('hex_codec'))
         p += '0'
     if hash[::-1] < target_str:
-        print 'done', nonce
+        print('done', nonce)
         break
 
 

@@ -1,9 +1,7 @@
-import struct
 import socket
+import struct
 
-import utils
-import msgUtils
-
+from . import msgUtils
 
 sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 #sock.connect(("50.151.108.133", 8333))
@@ -26,7 +24,7 @@ while 1:
         if len(chunk) == 0: break
         buf += chunk
         payload_len -= len(chunk)
-        print 'got chunk of', len(chunk)
+        print('got chunk of', len(chunk))
     msgUtils.processChunk(header, buf)
         
     #if step == 0:
@@ -36,8 +34,4 @@ while 1:
     if step == 5:
         msg = msgUtils.getAddrMsg()
         sock.send(msg)
-        print 'SENT', msg.encode('hex')
-
-
-
-
+        print('SENT', msg.encode('hex'))

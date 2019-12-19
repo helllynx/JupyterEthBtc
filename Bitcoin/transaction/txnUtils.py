@@ -5,8 +5,9 @@ import hashlib
 import struct
 import unittest
 
-import utils
-import keyUtils
+from . import keyUtils
+from . import utils
+
 
 # Makes a transaction from the inputs
 # outputs is a list of [redemptionSatoshis, outputScript]
@@ -144,13 +145,15 @@ class TestTxnUtils(unittest.TestCase):
         privateKey = keyUtils.wifToPrivateKey("5Kb6aGpijtrb8X28GzmWtbcGZCG8jHQWFJcWugqo3MwKRvC8zyu") #133t
 
         signed_txn = makeSignedTransaction(privateKey,
-            "c39e394d41e6be2ea58c2d3a78b8c644db34aeff865215c633fe6937933078a9", # output (prev) transaction hash
-            0, # sourceIndex
-            keyUtils.addrHashToScriptPubKey("133txdxQmwECTmXqAr9RWNHnzQ175jGb7e"),
-            [[24321, #satoshis
-            keyUtils.addrHashToScriptPubKey("1KKKK6N21XKo48zWKuQKXdvSsCf95ibHFa")],
-             [20000,            keyUtils.addrHashToScriptPubKey("15nhZbXnLMknZACbb3Jrf1wPCD9DWAcqd7")]]
-            )
+                                           "c39e394d41e6be2ea58c2d3a78b8c644db34aeff865215c633fe6937933078a9",
+                                           # output (prev) transaction hash
+                                           0,  # sourceIndex
+                                           keyUtils.addrHashToScriptPubKey("133txdxQmwECTmXqAr9RWNHnzQ175jGb7e"),
+                                           [[24321,  # satoshis
+                                             keyUtils.addrHashToScriptPubKey("1KKKK6N21XKo48zWKuQKXdvSsCf95ibHFa")],
+                                            [20000,
+                                             keyUtils.addrHashToScriptPubKey("15nhZbXnLMknZACbb3Jrf1wPCD9DWAcqd7")]]
+                                           )
 
         verifyTxnSignature(signed_txn)
 
