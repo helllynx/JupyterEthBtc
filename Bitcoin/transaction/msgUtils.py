@@ -1,14 +1,14 @@
-import time
-
 import hashlib
 import random
 import socket
 import struct
+import sys
+import time
 import unittest
 
-from . import utils
+# https://en.bitcoin.it/wiki/Protocol_specification#version
+from Bitcoin.transaction import utils
 
-#https://en.bitcoin.it/wiki/Protocol_specification#version
 magic = 0xd9b4bef9
 
 def makeMessage(magic, command, payload):

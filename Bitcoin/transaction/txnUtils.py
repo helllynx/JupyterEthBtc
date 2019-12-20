@@ -1,16 +1,16 @@
 # https://pypi.python.org/pypi/ecdsa/0.10
 
-import ecdsa
 import hashlib
 import struct
 import unittest
 
-from . import keyUtils
-from . import utils
-
+import ecdsa
 
 # Makes a transaction from the inputs
 # outputs is a list of [redemptionSatoshis, outputScript]
+from Bitcoin.transaction import utils, keyUtils
+
+
 def makeRawTransaction(outputTransactionHash, sourceIndex, scriptSig, outputs):
     def makeOutput(data):
         redemptionSatoshis, outputScript = data

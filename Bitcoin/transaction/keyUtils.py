@@ -1,16 +1,17 @@
 # https://pypi.python.org/pypi/ecdsa/0.10
-import ecdsa
-import ecdsa.der
-import ecdsa.util
 import hashlib
 import unittest
 
-from . import utils
-
+import ecdsa
+import ecdsa.der
+import ecdsa.util
 
 # https://en.bitcoin.it/wiki/Wallet_import_format
+from Bitcoin.transaction import utils
+
+
 def privateKeyToWif(key_hex):
-    return utils.base58CheckEncode(0x80, key_hex)
+    return utils.base58CheckEncode(0x80, key_hex.decode('hex'))
 
 def wifToPrivateKey(s):
     b = utils.base58CheckDecode(s)
@@ -29,9 +30,9 @@ def derSigToHexSig(s):
 
 # Input is hex string
 def privateKeyToPublicKey(s):
-    sk = ecdsa.SigningKey.from_string(bytes.fromhex(s), curve=ecdsa.SECP256k1)
+    sk = ecdsa.SigningKey.from_string(s.decode('hex'), curve=ecdsa.SECP256k1)
     vk = sk.verifying_key
-    return (b'\04' + sk.verifying_key.to_string())
+    return ('\04' + sk.verifying_key.to_string()).encode('hex')
 
 # Input is hex string
 def keyToAddr(s):
@@ -39,12 +40,12 @@ def keyToAddr(s):
 
 def pubKeyToAddr(s):
     ripemd160 = hashlib.new('ripemd160')
-    ripemd160.update(hashlib.sha256(s).digest())
-    return utils.base58CheckEncode(0, ripemd160.digest().hex())
+    ripemd160.update(hashlib.sha256(s.decode('hex')).digest())
+    return utils.base58CheckEncode(0, ripemd160.digest())
 
 def addrHashToScriptPubKey(b58str):
     assert(len(b58str) == 34)
-    # 76     A9      14 (20 bytes)                            88          AC
+    # 76     A9      14 (20 bytes)                                 88             AC
     return '76a914' + utils.base58CheckDecode(b58str).encode('hex') + '88ac'
 
     

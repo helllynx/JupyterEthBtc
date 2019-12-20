@@ -1,6 +1,6 @@
 import socket
 
-from . import msgUtils
+from Bitcoin.transaction import msgUtils
 
 sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 sock.connect(("184.155.9.47", 8333))
