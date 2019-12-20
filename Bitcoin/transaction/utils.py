@@ -52,8 +52,8 @@ def processAddr(payload):
 def base58encode(n):
     result = ''
     while n > 0:
-        result = b58[n%58] + result
-        n /= 58
+        result = b58[n % 58] + result
+        n //= 58
     return result
 
 def base58decode(s):
@@ -66,13 +66,13 @@ def base256encode(n):
     result = ''
     while n > 0:
         result = chr(n % 256) + result
-        n /= 256
+        n //= 256
     return result
 
 def base256decode(s):
     result = 0
     for c in s:
-        result = result * 256 + ord(c)
+        result = result * 256 + c
     return result
 
 def countLeadingChars(s, ch):
@@ -86,10 +86,10 @@ def countLeadingChars(s, ch):
 
 # https://en.bitcoin.it/wiki/Base58Check_encoding
 def base58CheckEncode(version, payload):
-    s = chr(version) + payload
-    checksum = hashlib.sha256(hashlib.sha256(s).digest()).digest()[0:4]
+    s = bytes.fromhex(version) + payload
+    checksum = (hashlib.sha256(hashlib.sha256(s).digest()).digest()[0:4])
     result = s + checksum
-    leadingZeros = countLeadingChars(result, '\0')
+    leadingZeros = countLeadingChars(result, 0x00)
     return '1' * leadingZeros + base58encode(base256decode(result))
 
 def base58CheckDecode(s):

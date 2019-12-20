@@ -11,7 +11,7 @@ from Bitcoin.transaction import utils
 
 
 def privateKeyToWif(key_hex):
-    return utils.base58CheckEncode(0x80, key_hex.decode('hex'))
+    return utils.base58CheckEncode('80', bytes.fromhex(key_hex))
 
 def wifToPrivateKey(s):
     b = utils.base58CheckDecode(s)
@@ -30,9 +30,9 @@ def derSigToHexSig(s):
 
 # Input is hex string
 def privateKeyToPublicKey(s):
-    sk = ecdsa.SigningKey.from_string(s.decode('hex'), curve=ecdsa.SECP256k1)
+    sk = ecdsa.SigningKey.from_string(bytes.fromhex(s), curve=ecdsa.SECP256k1)
     vk = sk.verifying_key
-    return ('\04' + sk.verifying_key.to_string()).encode('hex')
+    return (b'\04' + sk.verifying_key.to_string())
 
 # Input is hex string
 def keyToAddr(s):
@@ -40,8 +40,8 @@ def keyToAddr(s):
 
 def pubKeyToAddr(s):
     ripemd160 = hashlib.new('ripemd160')
-    ripemd160.update(hashlib.sha256(s.decode('hex')).digest())
-    return utils.base58CheckEncode(0, ripemd160.digest())
+    ripemd160.update(hashlib.sha256(s).digest())
+    return utils.base58CheckEncode('00', ripemd160.digest())
 
 def addrHashToScriptPubKey(b58str):
     assert(len(b58str) == 34)
