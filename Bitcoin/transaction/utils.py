@@ -72,9 +72,9 @@ def base58decode(s):
 
 
 def base256encode(n):
-    result = ''
+    result = b''
     while n > 0:
-        result = chr(n % 256) + result
+        result = bytes.fromhex(hex(n % 256)[2:]) + result
         n //= 256
     return result
 
@@ -106,7 +106,7 @@ def base58CheckEncode(version, payload):
 
 
 def base58CheckDecode(s):
-    leadingOnes = countLeadingChars(s, '1')
+    leadingOnes = countLeadingChars(s, b'1')
     s = base256encode(base58decode(s))
     result = '\0' * leadingOnes + s[:-4]
     chk = s[-4:]
@@ -133,9 +133,9 @@ class TestUtils(unittest.TestCase):
                          '98.145.152.22:8333')
 
     def test_countLeadingCharacters(self):
-        self.assertEqual(countLeadingChars('a\0bcd\0', '\0'), 0)
-        self.assertEqual(countLeadingChars('\0\0a\0bcd\0', '\0'), 2)
-        self.assertEqual(countLeadingChars('1a\0bcd\0', '1'), 1)
+        self.assertEqual(countLeadingChars(b'a\0bcd\0', b'\0'), 0)
+        self.assertEqual(countLeadingChars(b'\0\0a\0bcd\0', b'\0'), 2)
+        self.assertEqual(countLeadingChars(b'1a\0bcd\0', b'1'), 1)
 
     def test_base256(self):
         self.assertEqual(base256encode(base256decode('abc')), 'abc')

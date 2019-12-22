@@ -15,7 +15,7 @@ def privateKeyToWif(key_hex):
 
 def wifToPrivateKey(s):
     b = utils.base58CheckDecode(s)
-    return b.encode('hex')
+    return b
 
 
 # Input is a hex-encoded, DER-encoded signature
@@ -62,7 +62,7 @@ class TestKey(unittest.TestCase):
 
     def test_WifToPrivateKey(self):
         k = wifToPrivateKey("5HueCGU8rMjxEXxiPuD5BDku4MkFqeZyd4dZ1jvhTVqvbTLvyTJ")
-        self.assertEqual(k.upper(), "0C28FCA386C7A227600B2FE50B7CAE11EC86D3BF1FBE471BE89827E19D72AA1D")
+        self.assertEqual(k.upper(), b"0C28FCA386C7A227600B2FE50B7CAE11EC86D3BF1FBE471BE89827E19D72AA1D")
 
     def test_keyToAddr(self):
         a = keyToAddr("18E14A7B6A307F426A94F8114701E7C8E774E7F9A47E2C2035DB29A206321725")
