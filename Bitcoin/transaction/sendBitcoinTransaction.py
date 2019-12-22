@@ -4,8 +4,8 @@ import struct
 from Bitcoin.transaction import msgUtils
 
 sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-#sock.connect(("50.151.108.133", 8333))
-#sock.connect(("64.237.43.178", 8333))
+# sock.connect(("50.151.108.133", 8333))
+# sock.connect(("64.237.43.178", 8333))
 sock.connect(("24.255.210.44", 8333))
 
 sock.send(msgUtils.getVersionMsg())
@@ -26,8 +26,8 @@ while 1:
         payload_len -= len(chunk)
         print('got chunk of', len(chunk))
     msgUtils.processChunk(header, buf)
-        
-    #if step == 0:
+
+    # if step == 0:
     #   sock.send(msg_getblocks)
     step += 1
 
