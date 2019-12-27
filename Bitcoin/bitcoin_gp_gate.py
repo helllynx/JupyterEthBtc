@@ -16,6 +16,8 @@ class BitcoinGate:
                 if total_value >= amout:
                     indexes.append(idx)
                     return indexes
+            print(values)
+            print(amout)
             raise Exception(f'Not enough money: {total_value}')
 
         all_utxo = requests.get(f'{self.url}/{address}/utxo').json()
@@ -25,6 +27,9 @@ class BitcoinGate:
 
     def send_raw_transaction(self, transaction):
         return requests.put(f'{self.url}/transactions', transaction).content.decode()
+
+    def get_balance(self, address):
+        return requests.get(f'{self.url}/{address}/balance')
 
     def get_fee(self):
         return requests.get(f'{self.url}/fee').json()
