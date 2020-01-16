@@ -33,7 +33,7 @@ class BitcoinGP:
             return balance.json()
         raise Exception('Can\'t retrieve balance')
 
-    def send_transaction(self, private_key: str, address_from: str, address_to: str, amount: float, fee: Fee):
+    def build_transaction(self, private_key: str, address_from: str, address_to: str, amount: float, fee: Fee):
         fee_per_byte = self._api.get_fee()[fee.value]
         utxo = self._api.get_utxo_by_amout(address_from, amount)
         transaction_inputs = [TxInput(u['tx_hash'], u['tx_pos']) for u in utxo[0]]
@@ -66,16 +66,12 @@ class BitcoinGP:
         for t in transaction_inputs:
             t.script_sig = Script([sig, pk])
 
-        signed_transaction = transaction.serialize()
+        return transaction.serialize()
 
-        print(amount)
-        print(calculated_fee)
-        print(utxo)
-        transaction_hash = self._api.send_raw_transaction(signed_transaction)
+    def send_transaction(self, signed_transaction):
+        return self._api.send_raw_transaction(signed_transaction)
 
-        return transaction_hash
-
-    def send_all_bitcoins(self, private_key: str, address_from: str, address_to: str, fee: Fee):
+    def build_transaction_all_assets_to_address(self, private_key: str, address_from: str, address_to: str, fee: Fee):
         # get address_from balance and send all bitcoins to address_to
         # transaction output contains just one output, without change output
 
@@ -110,6 +106,4 @@ class BitcoinGP:
         for t in transaction_inputs:
             t.script_sig = Script([sig, pk])
 
-        signed_transaction = transaction.serialize()
-
-        return self._api.send_raw_transaction(signed_transaction)
+        return transaction.serialize()

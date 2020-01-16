@@ -16,6 +16,9 @@ neocore = "*"
 cryptos = "*"
 bitcoin-utils = "*"
 jupyter = "*"
+python-bitcoinrpc = "*"
+bitcoin-python = "*"
+python-bitcoinlib = "*"
 
 [requires]
 python_version = "3.8"
