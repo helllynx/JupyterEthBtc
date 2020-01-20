@@ -13,14 +13,14 @@ class BitcoinGate:
             total_value = 0
             for idx, val in enumerate(values):
                 total_value += val
+                indexes.append(idx)
                 if total_value >= amout:
-                    indexes.append(idx)
                     return indexes
 
             raise Exception(f'Not enough money: {total_value}')
 
         all_utxo = self.get_utxo(address)
-        indexes = utxo_calculation(sorted([v['value'] for v in all_utxo]), amount)
+        indexes = utxo_calculation([v['value'] for v in all_utxo], amount)
 
         return [[all_utxo[i] for i in indexes], sum([all_utxo[i]['value'] for i in indexes])]
 
@@ -35,3 +35,6 @@ class BitcoinGate:
 
     def get_fee(self):
         return requests.get(f'{self.url}/fee').json()
+
+    def get_transaction(self, transaction_hash):
+        return requests.get(f'{self.url}/transactions?hash={transaction_hash}').json()

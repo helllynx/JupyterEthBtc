@@ -6,19 +6,20 @@ verify_ssl = true
 [dev-packages]
 
 [packages]
-web3 = "*"
-two1 = "*"
-base58 = "*"
-mnemonic = "*"
-ipykernel = "*"
-pandas = "*"
-neocore = "*"
-cryptos = "*"
-bitcoin-utils = "*"
+python-bitcoinrpc = "==1.0"
+jsonschema = "~=3.0.2"
+pycoin = "==0.80"
+python-bitcoinlib = {editable = true,git = "https://github.com/petertodd/python-bitcoinlib.git"}
 jupyter = "*"
-python-bitcoinrpc = "*"
-bitcoin-python = "*"
-python-bitcoinlib = "*"
+pandas = "*"
+ipykernel = "*"
+two1 = "*"
+pycryptodome = "*"
+neocore = "*"
+eth-utils = "*"
+bitcoin-utils = "*"
+web3 = "*"
+halo = "*"
 
 [requires]
-python_version = "3.8"
+python_version = "3.6"
