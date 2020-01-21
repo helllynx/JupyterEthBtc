@@ -3,15 +3,12 @@
 ## How run notebook
 
 Setup `pipenv`:
-```angular2html
-pipenv install
-```
-
-if you have some issues wih dependences, use:
 
 ```angular2html
 pipenv install --skip-lock
 ```
+
+`--skip-lock` - because of dependency issue between two1 and neocore.
 
 Run Jupyter:
 
