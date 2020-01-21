@@ -54,7 +54,7 @@ class BitcoinGP:
 
         # testnet has to low fee
         if not self.main_net:
-            calculated_fee *= 2
+            calculated_fee *= 4
 
         utxo = self._api.get_utxo_by_amout(address_from, amount * 10 ** 8 + calculated_fee * 10 ** 8)
         transaction_inputs = [TxInput(u['tx_hash'], u['tx_pos']) for u in utxo[0]]
@@ -99,7 +99,7 @@ class BitcoinGP:
 
         # testnet has to low fee
         if not self.main_net:
-            calculated_fee *= 2
+            calculated_fee *= 4
 
         amount = balance / self.decimals - calculated_fee / self.decimals
         amount = round(amount, 8)
