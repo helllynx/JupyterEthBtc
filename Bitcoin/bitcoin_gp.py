@@ -125,14 +125,3 @@ class BitcoinGP:
         return self._api.get_transaction(transaction_hash)
 
 
-url = 'https://testgate.geniepay.io/v1/'
-btc_gp = BitcoinGP(url, main_net=False)
-
-signed_transaction = btc_gp.build_transaction(
-    private_key='02ef7b9791c17f35bb7f18f46209c984dc8a0317813166e5c00e7c06af5bdb9b',
-    address_from='mtQbvrrZd9kDLLNfJHaHHhu1t3jHx1c3Jh',
-    address_to='mrG7g5qttebyfWar9MjYex9aDsDdVFGFLg',
-    amount=0.00001,
-    fee=Fee.FAST)
-
-# transaction_hash = btc_gp.send_transaction(signed_transaction)
